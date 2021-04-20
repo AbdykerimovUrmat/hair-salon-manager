@@ -98,5 +98,10 @@ namespace HairSalon.Controllers
             var model = await Service.ById<ClientModel.Base>(id);
             return model.IsNotNull();
         }
+
+        protected virtual void OnException(System.Web.Mvc.ExceptionContext filterContext)
+        {
+            //add exception
+        }
     }
 }
