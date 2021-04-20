@@ -11,9 +11,9 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <div class="list-group-horizontal">
-            @Html.ActionLink("Создать сеанс", "Create", "Sessions")
-            @Html.ActionLink("Список клиентов", "Index", "Clients")
-            @Html.ActionLink("Список Сеансов", "Index", "Sessions")
+            @Html.ActionLink("Создать сеанс", "Create", "Sessions", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Список клиентов", "Index", "Clients", null, new { @class = "btn btn-primary" })
+            @Html.ActionLink("Список Сеансов", "Index", "Sessions", null, new { @class = "btn btn-primary" })
         </div>
     }
 </div>

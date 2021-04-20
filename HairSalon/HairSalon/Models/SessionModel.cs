@@ -1,10 +1,8 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
-using Common.Interfaces;
 
-namespace HairSalon.Data.Entities
+namespace HairSalon.Models
 {
-    public class Session : IIdHasInt
+    public class SessionModel
     {
         /// <summary>
         /// Код сеанса
@@ -39,7 +37,6 @@ namespace HairSalon.Data.Entities
         /// <summary>
         /// Клиент сеанса
         /// </summary>
-        [ForeignKey("ClientId")]
-        public Client Client { get; set; }
+        public ClientModel.Base Client { get; set; }
     }
 }

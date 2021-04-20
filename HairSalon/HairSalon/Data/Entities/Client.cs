@@ -1,7 +1,12 @@
 ﻿
+using Common.Interfaces;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace HairSalon.Data.Entities
 {
-    public class Client
+    public class Client : IIdHasInt
     {
         /// <summary>
         /// Код клиента
@@ -32,5 +37,10 @@ namespace HairSalon.Data.Entities
         /// Телефона клиента
         /// </summary>
         public string Phone { get; set; }
+
+        /// <summary>
+        /// Все Сеансы Клиента
+        /// </summary>
+        public virtual IEnumerable<Session> Sessions { get; set; }
     }
 }

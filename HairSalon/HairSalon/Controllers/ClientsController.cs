@@ -7,42 +7,37 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HairSalon.Data;
 using HairSalon.Data.Entities;
+using MapsterMapper;
+using Mapster;
+using HairSalon.Models;
+using HairSalon.Services;
+using HairSalon.Common.Extensions;
 
 namespace HairSalon.Controllers
 {
     public class ClientsController : Controller
     {
-        private AppDbContext Context { get; }
+        private ClientService Service { get; }
 
-        public ClientsController(AppDbContext context)
+        public ClientsController(ClientService service)
         {
-            Context = context;
+            Service = service;
         }
 
         // GET: Clients
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await Context.Clients.ToListAsync());
+            var lst = await Service.List<ClientModel.Base>();
+            return View(lst);
         }
 
         // GET: Clients/Details/5
         [HttpGet]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var client = await Context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            return View(client);
+            var model = await Service.ById<ClientModel.Base>(id);
+            return View(model);
         }
 
         // GET: Clients/Create
@@ -55,84 +50,47 @@ namespace HairSalon.Controllers
         // POST: Clients/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,Surname,CardCode,Phone")] Client client)
+        public async Task<IActionResult> Create(ClientModel.Base model)
         {
             if (ModelState.IsValid)
             {
-                Context.Add(client);
-                await Context.SaveChangesAsync();
+                await Service.Add<ClientModel.Base>(model);
                 return RedirectToAction(nameof(Index));
             }
-            return View(client);
+
+            return View(model);
         }
 
         // GET: Clients/Edit/5
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var client = await Context.Clients.FindAsync(id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-            return View(client);
+            var model = await Service.ById<ClientModel.Base>(id);
+            return View(model);
         }
 
         // POST: Clients/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Surname,CardCode,Phone")] Client client)
+        public async Task<IActionResult> Edit(ClientModel.Base model)
         {
-            if (id != client.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    Context.Update(client);
-                    await Context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClientExists(client.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                await Service.Edit<ClientModel.Base>(model);
+                
                 return RedirectToAction(nameof(Index));
             }
-            return View(client);
+
+            return View(model);
         }
 
         // GET: Clients/Delete/5
         [HttpGet]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var model = await Service.ById<ClientModel.Base>(id);
 
-            var client = await Context.Clients
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            return View(client);
+            return View(model);
         }
 
         // POST: Clients/Delete/5
@@ -140,15 +98,14 @@ namespace HairSalon.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var client = await Context.Clients.FindAsync(id);
-            Context.Clients.Remove(client);
-            await Context.SaveChangesAsync();
+            await Service.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ClientExists(int id)
+        private async Task<bool> ClientExists(int id)
         {
-            return Context.Clients.Any(e => e.Id == id);
+            var model = await Service.ById<ClientModel.Base>(id);
+            return model.IsNotNull();
         }
     }
 }
