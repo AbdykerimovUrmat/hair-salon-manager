@@ -1,8 +1,8 @@
-﻿using Common.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace HairSalon.Data.Extensions
 {

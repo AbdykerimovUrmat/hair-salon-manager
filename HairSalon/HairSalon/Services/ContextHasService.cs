@@ -1,5 +1,5 @@
-﻿using HairSalon.Data;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using HairSalon.Data;
 
 namespace HairSalon.Services
 {

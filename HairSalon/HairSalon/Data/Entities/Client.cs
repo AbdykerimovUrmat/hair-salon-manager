@@ -1,8 +1,5 @@
-﻿
-using Common.Interfaces;
+﻿using Common.Interfaces;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace HairSalon.Data.Entities
 {

@@ -1,8 +1,6 @@
-﻿
-using Common.Interfaces;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using Common.Interfaces;
 
 namespace HairSalon.Models
 {
@@ -39,6 +37,7 @@ namespace HairSalon.Models
             /// <summary>
             /// Код на карте клиента
             /// </summary>
+            [DisplayName("Код карты")]
             public int CardCode { get; set; }
 
             /// <summary>
@@ -46,6 +45,7 @@ namespace HairSalon.Models
             /// </summary>
             [Required]
             [DataType(DataType.PhoneNumber)]
+            [DisplayName("Телефон")]
             public string Phone { get; set; }
         }
     }

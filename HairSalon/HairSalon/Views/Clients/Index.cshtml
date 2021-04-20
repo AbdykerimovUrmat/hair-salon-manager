@@ -1,15 +1,16 @@
-﻿@model IEnumerable<HairSalon.Data.Entities.Client>
+﻿@model IEnumerable<HairSalon.Models.ClientModel.Base>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Клиенты";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Список клиентов</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Создать нового клиента</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -50,9 +51,9 @@
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Подробнее</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
             </td>
         </tr>
 }
