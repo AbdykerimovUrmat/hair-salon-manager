@@ -9,6 +9,7 @@ namespace HairSalon.Common.Extensions
         {
             services.AddTransient<ClientService>();
             services.AddTransient<SessionService>();
+            services.AddTransient<ServiceService>();
         }
     }
 }

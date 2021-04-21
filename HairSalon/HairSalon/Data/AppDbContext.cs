@@ -14,5 +14,7 @@ namespace HairSalon.Data
             : base(options)
         {
         }
+
+        public DbSet<HairSalon.Data.Entities.Service> Service { get; set; }
     }
 }
