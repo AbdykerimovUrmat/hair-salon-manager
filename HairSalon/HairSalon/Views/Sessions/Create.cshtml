@@ -1,4 +1,4 @@
-﻿@model HairSalon.Models.SessionModel
+﻿@model HairSalon.Models.SessionModel.Create
 
 @{
     ViewData["Title"] = "Создать";
@@ -29,8 +29,13 @@
                 <span asp-validation-for="Comment" class="text-danger"></span>
             </div>
             <div class="form-group">
+                @Html.LabelFor(model => model.ServiceId, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(model => model.ServiceId, Model.SelectListServiceItems, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ServiceId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
                 <label asp-for="Sum" class="control-label"></label>
-                <input asp-for="Sum" class="form-control" />
+                <input asp-for="Sum" class="form-control" value=""/>
                 <span asp-validation-for="Sum" class="text-danger"></span>
             </div>
             <div class="form-group">

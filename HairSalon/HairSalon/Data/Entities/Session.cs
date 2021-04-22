@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using Common.Interfaces;
 
@@ -41,5 +42,16 @@ namespace HairSalon.Data.Entities
         /// </summary>
         [ForeignKey("ClientId")]
         public Client Client { get; set; }
+
+        /// <summary>
+        /// Код услуги
+        /// </summary>
+        public int? ServiceId { get; set; }
+
+        /// <summary>
+        /// Услуги в сеансе
+        /// </summary>
+        [ForeignKey("ServiceId")]
+        public Service Service { get; set; }
     }
 }

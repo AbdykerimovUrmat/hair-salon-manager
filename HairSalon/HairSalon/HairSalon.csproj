@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Migrations\20210422040104_Misc.cs" />
+    <Compile Remove="Data\Migrations\20210422040104_Misc.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.0.4" />
     <PackageReference Include="Mapster" Version="7.2.0" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />

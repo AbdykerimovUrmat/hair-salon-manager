@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using HairSalon.Models;
 using HairSalon.Services;
 using HairSalon.Common.Extensions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace HairSalon.Controllers
 {
@@ -10,16 +12,19 @@ namespace HairSalon.Controllers
     {
         private SessionService Service { get; }
 
-        public SessionsController(SessionService service)
+        private ServiceService ServiceService { get; }
+
+        public SessionsController(SessionService service, ServiceService serviceService)
         {
             Service = service;
+            ServiceService = serviceService;
         }
 
         // GET: Sessions
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var lst = await Service.List<SessionModel>();
+            var lst = await Service.List<SessionModel.Base>();
             return View(lst);
         }
 
@@ -27,25 +32,25 @@ namespace HairSalon.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var model = await Service.ById<SessionModel>(id);
+            var model = await Service.ById<SessionModel.Base>(id);
             return View(model);
         }
 
         // GET: Sessions/Create
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            return View(await GenerateModel());
         }
 
         // POST: Sessions/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SessionModel model)
+        public async Task<IActionResult> Create(SessionModel.Base model)
         {
             if (ModelState.IsValid)
             {
-                await Service.Add<SessionModel>(model);
+                await Service.Add<SessionModel.Base>(model, model.ServiceId);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -56,18 +61,18 @@ namespace HairSalon.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await Service.ById<SessionModel>(id);
+            var model = await Service.ById<SessionModel.Create>(id);
             return View(model);
         }
 
         // POST: Sessions/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(SessionModel model)
+        public async Task<IActionResult> Edit(SessionModel.Base model)
         {
             if (ModelState.IsValid)
             {
-                await Service.Edit<SessionModel>(model);
+                await Service.Edit<SessionModel.Base>(model);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -79,7 +84,7 @@ namespace HairSalon.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var model = await Service.ById<SessionModel>(id);
+            var model = await Service.ById<SessionModel.Base>(id);
 
             return View(model);
         }
@@ -95,8 +100,22 @@ namespace HairSalon.Controllers
 
         private async Task<bool> SessionExists(int id)
         {
-            var model = await Service.ById<SessionModel>(id);
+            var model = await Service.ById<SessionModel.Base>(id);
             return model.IsNotNull();
+        }
+
+        private async Task<SessionModel.Create> GenerateModel()
+        {
+            var lst = await ServiceService.List<ServiceModel.Base>();
+            var model = new SessionModel.Create
+            {
+                SelectListServiceItems = lst.Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.Name
+                })
+            };
+            return model;
         }
     }
 }
