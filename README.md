@@ -1,2 +1,2 @@
-# hair-salon-loyalty-program
-loyalty program for local hair salons.
+# hair-salon-manager
+clients manager program for local hair salons.
